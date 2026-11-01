@@ -3,55 +3,103 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1f6f5c">
+<meta name="theme-color" content="#6C5CE7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#3A2F8F" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Quedamos">
 <title>Quedamos</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
+/* Paleta Atardecer */
 :root{
-  --bg:#f6f4ef; --card:#ffffff; --ink:#1d1f1e; --muted:#6b706d; --line:#e4e1d9;
-  --accent:#1f6f5c; --accent-soft:#dcefe8;
-  --ok:#2e8b57; --warn:#d99a1e; --late:#c8463d;
-  --radius:14px;
+  --bg:#F6F4FF; --card:#ffffff; --ink:#221C3A; --muted:#7D7896; --line:#E4E0F8;
+  --accent:#6C5CE7; --accent-ink:#4B3CC4; --accent-soft:#ECE9FD;
+  --ok:#20BF8B; --warn:#FF9F43; --late:#EE4B5A; --plan:#6C5CE7; --plan-soft:#ECE9FD; --plan-ink:#4B3CC4;
+  --c-cercano:#FF6B6B; --c-amigo:#FF9F43; --c-excompa:#E056A0; --c-conocido:#4DA8DA;
+  --track:#ECE8FB; --radius:16px; color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --bg:#141615; --card:#1e2120; --ink:#ecebe7; --muted:#9aa09c; --line:#2d3230;
-    --accent:#4fb59a; --accent-soft:#1f3a33; color-scheme:dark; }
+  :root{ --bg:#15131E; --card:#201D2C; --ink:#EEEBFA; --muted:#9D97B5; --line:#2F2A42;
+    --accent:#8F82F0; --accent-ink:#C2BAFF; --accent-soft:#2C2648;
+    --ok:#3CCB9A; --warn:#F5A55A; --late:#F06572; --plan:#8F82F0; --plan-soft:#2C2648; --plan-ink:#C2BAFF;
+    --c-cercano:#E86A6A; --c-amigo:#E39552; --c-excompa:#CC5E9C; --c-conocido:#5A9FC9;
+    --track:#2A2640; color-scheme:dark; }
 }
-:root[data-theme="dark"]{ --bg:#141615; --card:#1e2120; --ink:#ecebe7; --muted:#9aa09c; --line:#2d3230;
-  --accent:#4fb59a; --accent-soft:#1f3a33; color-scheme:dark; }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);
   font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-header{position:sticky;top:0;z-index:5;background:var(--bg);
-  padding:calc(env(safe-area-inset-top) + 12px) 16px 8px;display:flex;align-items:center;justify-content:space-between}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);
+  padding:12px max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));
+  display:flex;align-items:center;justify-content:space-between;max-width:640px;margin:0 auto;
+  margin-top:env(safe-area-inset-top,0px)}
 h1{font-size:22px;margin:0;letter-spacing:-.3px}
 h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:22px 0 8px;font-weight:600}
-main{padding:0 16px 110px;max-width:640px;margin:0 auto}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+main{padding:0 max(16px,env(safe-area-inset-right,0px)) 110px max(16px,env(safe-area-inset-left,0px));max-width:640px;margin:0 auto}
+.card{background:var(--card);border:1px solid transparent;box-shadow:0 1px 3px rgba(34,28,58,.07);border-radius:var(--radius);padding:14px;margin-bottom:10px}
 .row{display:flex;align-items:center;gap:10px}
 .grow{flex:1;min-width:0}
 .name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sub{font-size:13px;color:var(--muted)}
+.sub.due{color:var(--warn)}
 .dot{width:10px;height:10px;border-radius:50%;flex:none}
 .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.late{background:var(--late)} .dot.new{background:var(--muted)}
+.dot.planned{background:var(--plan)}
 .btn{border:0;border-radius:10px;padding:9px 12px;font:inherit;font-size:14px;cursor:pointer;
   background:var(--accent-soft);color:var(--accent);font-weight:600}
 .btn.primary{background:var(--accent);color:#fff}
 .btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .btn.danger{background:transparent;color:var(--late);border:1px solid var(--line)}
+.btn.plan{background:var(--plan-soft);color:var(--plan-ink)}
+.btn{color:var(--accent-ink)}
+.btn.primary{color:#fff}
+h1.brand{color:#fff}
+header{background:var(--accent);max-width:none;color:#fff}
+header .icon-btn{color:rgba(255,255,255,.85)}
+body::before{background:var(--accent)}
+.topband{background:var(--accent);height:34px;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) -26px;border-radius:0 0 24px 24px}
+.stats{position:relative}
+.stat{box-shadow:0 4px 12px rgba(34,28,58,.12)}
+@media (prefers-color-scheme: dark){ header,body::before,.topband{background:#3A2F8F} }
+.av{width:42px;height:42px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:700;font-size:15px;letter-spacing:.3px;position:relative}
+.av.lg{width:56px;height:56px;font-size:19px}
+.av .badge{position:absolute;right:-2px;bottom:-2px;width:16px;height:16px;border-radius:50%;border:2px solid var(--card);background:var(--muted)}
+.av .badge.ok{background:var(--ok)} .av .badge.warn{background:var(--warn)} .av .badge.late{background:var(--late)} .av .badge.planned{background:var(--plan)}
+.bar{height:7px;border-radius:4px;background:var(--track);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+.circ{font-size:11px;font-weight:700;letter-spacing:.3px}
+.hero{background:var(--plan);color:#fff;border-radius:var(--radius);padding:16px;display:flex;gap:14px;align-items:center;cursor:pointer;margin-bottom:10px}
+.hero .when{background:rgba(255,255,255,.2);color:#fff;width:58px}
+.hero .when b{font-size:26px}
+.hero .k{font-size:12px;opacity:.85;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.hero .t{font-size:18px;font-weight:700;margin:2px 0}
+.hero .s{font-size:14px;opacity:.9}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.stat{border-radius:14px;padding:10px 12px;background:var(--card);color:var(--muted);border-top:4px solid var(--c)}
+.stat b{display:block;font-size:26px;line-height:1.1;color:var(--c)}
+.stat span{font-size:12px;font-weight:600}
 .quick{display:flex;gap:6px;margin-top:10px}
-.quick .btn{flex:1;padding:8px 4px}
+.quick .btn{flex:1;padding:8px 4px;white-space:nowrap}
+.quick .btn.plan{flex:none;padding:8px 12px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin:4px 0 6px}
 .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:14px;white-space:nowrap;cursor:pointer}
-.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.fab{position:fixed;right:20px;bottom:calc(env(safe-area-inset-bottom) + 20px);width:58px;height:58px;border-radius:50%;
-  border:0;background:var(--accent);color:#fff;font-size:30px;box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fab{position:fixed;right:20px;bottom:calc(env(safe-area-inset-bottom) + 20px);width:60px;height:60px;border-radius:50%;
+  border:0;background:var(--accent);color:#fff;font-size:32px;box-shadow:0 8px 22px rgba(108,92,231,.45);cursor:pointer}
 .empty{text-align:center;color:var(--muted);padding:30px 10px}
 .bday{font-size:14px}
+.when{flex:none;text-align:center;width:48px;border-radius:12px;background:var(--plan-soft);color:var(--plan-ink);padding:4px 0;line-height:1.1}
+.when b{display:block;font-size:20px}
+.when span{font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.when.past{background:var(--line);color:var(--muted)}
+.meet{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
+.meet span{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.meet span.next{background:var(--plan-soft);color:var(--plan-ink);border-color:transparent}
+.demo{margin-top:12px!important;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;margin-top:4px}
 /* sheet */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:20}
 .overlay.open{display:block}
@@ -65,17 +113,19 @@ input,select,textarea{width:100%;font:inherit;padding:10px 12px;border-radius:10
 textarea{min-height:80px;resize:vertical}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .log{border-left:2px solid var(--line);padding:2px 0 10px 12px;margin-left:4px}
+.log.planned{border-left-color:var(--plan)}
 .log .sub{display:flex;justify-content:space-between;gap:8px}
 .icon-btn{background:none;border:0;color:var(--muted);font-size:20px;cursor:pointer;padding:6px}
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:var(--bg);
-  padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
+  padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30;
+  max-width:90vw;text-align:center}
 .toast.show{opacity:1}
 .tag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
 </style>
 </head>
 <body>
 <header>
-  <h1>Quedamos</h1>
+  <h1 class="brand">Quedamos</h1>
   <button class="icon-btn" id="menuBtn" aria-label="Ajustes">⋯</button>
 </header>
 <main id="app"></main>
@@ -86,8 +136,9 @@ textarea{min-height:80px;resize:vertical}
 <div class="toast" id="toast"></div>
 
 <script>
+const PREVIEW = false;
 // ---------- datos ----------
-const KEY = 'quedamos.v1';
+const KEY = PREVIEW ? 'quedamos.preview.v2' : 'quedamos.v1';
 const CIRCLES = {
   cercano:   {label:'Cercanos',      days:14},
   amigo:     {label:'Amigos',        days:30},
@@ -99,17 +150,14 @@ const TYPES = {
   llamada: {label:'Llamada', icon:'📞'},
   quedada: {label:'Quedada', icon:'☕'},
 };
+const PLAN_TYPES = ['quedada','llamada'];
 const WEEKLY_PICKS = 3;
+const DOW = ['dom','lun','mar','mié','jue','vie','sáb'];
+const MON = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
-let db = load();
 let filter = 'todos';
 var toastTimer, storageWarned = false;
 
-function load(){
-  try{ const d = JSON.parse(localStorage.getItem(KEY)); if(d && Array.isArray(d.people)) return d; }catch(e){}
-  return {people:[]};
-}
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){ if(!storageWarned){ storageWarned=true; setTimeout(()=>toast('Este navegador no guarda datos: se perderán al cerrar'),300); } } }
 const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
 const today = () => { const d=new Date(); d.setHours(0,0,0,0); return d; };
 const toISO = d => { const z=new Date(d); z.setMinutes(z.getMinutes()-z.getTimezoneOffset()); return z.toISOString().slice(0,10); };
@@ -117,19 +165,33 @@ const parseISO = s => { const [y,m,d]=s.split('-').map(Number); return new Date(
 const daysBetween = (a,b) => Math.round((b-a)/86400000);
 const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(KEY));
+    if(d && Array.isArray(d.people)){ d.people.forEach(p=>{ p.logs=p.logs||[]; p.plans=p.plans||[]; }); return d; }
+  }catch(e){}
+  return {people:[]};
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(db)); }catch(e){ if(!storageWarned){ storageWarned=true; setTimeout(()=>toast('Este navegador no guarda datos: se perderán al cerrar'),300); } } }
+let db = load();
+
 // ---------- lógica ----------
 function lastOf(p, type){
   const logs = p.logs.filter(l => !type || l.type===type);
   if(!logs.length) return null;
   return logs.reduce((a,b)=> a.date > b.date ? a : b);
 }
+const byWhen = (a,b) => (a.date+(a.time||'')).localeCompare(b.date+(b.time||''));
+function upcoming(p){ const t=toISO(today()); return p.plans.filter(x=>x.date>=t).sort(byWhen); }
+function pastPlans(p){ const t=toISO(today()); return p.plans.filter(x=>x.date<t).sort(byWhen); }
+const nextPlan = p => upcoming(p)[0] || null;
+
 function status(p){
   // ratio = días desde último contacto / cadencia. Si hay cadencia de quedada, se usa la peor de las dos.
   const t = today();
   const res = [];
   const last = lastOf(p);
-  if(last){ res.push({kind:'contacto', since:daysBetween(parseISO(last.date),t), cad:p.cadence}); }
-  else res.push({kind:'contacto', since:null, cad:p.cadence});
+  res.push({kind:'contacto', since: last ? daysBetween(parseISO(last.date),t) : null, cad:p.cadence});
   if(p.meetCadence){
     const lm = lastOf(p,'quedada');
     res.push({kind:'quedada', since: lm ? daysBetween(parseISO(lm.date),t) : null, cad:p.meetCadence});
@@ -140,18 +202,9 @@ function status(p){
     r.due = r.since===null ? 0 : r.cad - r.since;
     if(!worst || r.ratio > worst.ratio) worst = r;
   }
-  const level = worst.since===null ? 'new' : worst.ratio >= 1.25 ? 'late' : worst.ratio >= 0.85 ? 'warn' : 'ok';
-  return {...worst, level};
-}
-function statusText(p, s){
-  const last = lastOf(p);
-  const lastTxt = last ? `${TYPES[last.type].icon} hace ${fmtDays(daysBetween(parseISO(last.date),today()))}` : 'Sin registros todavía';
-  let dueTxt = '';
-  if(s.since!==null){
-    const what = s.kind==='quedada' ? 'quedar' : 'escribir';
-    dueTxt = s.due < 0 ? ` · toca ${what} (${fmtDays(-s.due)} tarde)` : s.due===0 ? ` · toca ${what} hoy` : '';
-  }
-  return lastTxt + dueTxt;
+  const planned = !!nextPlan(p);
+  const level = planned ? 'planned' : worst.since===null ? 'new' : worst.ratio >= 1.25 ? 'late' : worst.ratio >= 0.85 ? 'warn' : 'ok';
+  return {...worst, level, planned, sortKey: planned ? -1 : worst.ratio};
 }
 function fmtDays(n){
   if(n===0) return 'hoy';
@@ -159,6 +212,33 @@ function fmtDays(n){
   if(n<60) return `${Math.round(n/7)} sem.`;
   if(n<365) return `${Math.round(n/30)} meses`;
   const y = Math.round(n/365*10)/10; return `${y} años`;
+}
+function fmtPlanDate(pl, long){
+  const d = parseISO(pl.date), n = daysBetween(today(), d);
+  let s = n===0 ? 'hoy' : n===1 ? 'mañana' : `${DOW[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()]}`;
+  if(pl.time) s += ` · ${pl.time}`;
+  if(long && n>1) s += ` (en ${n} días)`;
+  return s;
+}
+// Línea "última quedada / próxima"
+function meetLine(p){
+  const lm = lastOf(p,'quedada'), np = nextPlan(p);
+  const last = lm ? `☕ Última: hace ${fmtDays(daysBetween(parseISO(lm.date),today()))}` : '☕ Sin quedadas aún';
+  const next = np ? `<span class="next">📅 ${TYPES[np.type].icon==='☕'?'':TYPES[np.type].icon+' '}${esc(fmtPlanDate(np))}</span>` : `<span>📅 Sin plan</span>`;
+  return `<div class="meet"><span>${last}</span>${next}</div>`;
+}
+// Línea secundaria: último contacto (si no fue quedada) y si toca escribir
+function contactLine(p, s){
+  const last = lastOf(p);
+  const parts = [];
+  if(last && last.type!=='quedada') parts.push(`${TYPES[last.type].icon} hace ${fmtDays(daysBetween(parseISO(last.date),today()))}`);
+  let due = false;
+  if(!s.planned && s.since!==null && s.due <= 0){
+    const what = s.kind==='quedada' ? 'quedar' : 'escribir';
+    parts.push(s.due < 0 ? `toca ${what} (${fmtDays(-s.due)} tarde)` : `toca ${what} hoy`); due = true;
+  }
+  if(!last) parts.push('Sin registros todavía');
+  return parts.length ? `<div class="sub ${due?'due':''}" style="margin-top:3px">${esc(parts.join(' · '))}</div>` : '';
 }
 function nextBirthday(p){
   if(!p.birthday) return null;
@@ -170,16 +250,15 @@ function nextBirthday(p){
 }
 function weekKey(){ const t=today(); const day=(t.getDay()+6)%7; t.setDate(t.getDate()-day); return toISO(t); }
 function weeklyPicks(){
-  // Propuesta semanal estable: se calcula una vez por semana y solo cambia si haces contacto con alguien.
+  // Propuesta semanal estable: se calcula una vez por semana. Quien tenga contacto o plan esta semana sale como hecho.
   const wk = weekKey();
-  const contactedThisWeek = id => { const p=db.people.find(x=>x.id===id); const l=p&&lastOf(p); return l && l.date >= wk; };
+  const done = id => { const p=db.people.find(x=>x.id===id); if(!p) return false; const l=lastOf(p); return (l && l.date >= wk) || !!nextPlan(p); };
   if(db.picks && db.picks.week===wk){
-    const alive = db.picks.ids.filter(id => db.people.some(p=>p.id===id));
-    return alive.map(id=>({id, done:contactedThisWeek(id)}));
+    return db.picks.ids.filter(id => db.people.some(p=>p.id===id)).map(id=>({id, done:done(id)}));
   }
   const ranked = db.people
     .map(p=>({p, s:status(p)}))
-    .filter(x=> x.s.ratio >= 0.85)
+    .filter(x=> !x.s.planned && x.s.ratio >= 0.85)
     .sort((a,b)=> b.s.ratio - a.s.ratio)
     .slice(0, WEEKLY_PICKS);
   db.picks = {week:wk, ids:ranked.map(x=>x.p.id)};
@@ -193,15 +272,57 @@ function render(){
   if(!db.people.length){
     app.innerHTML = `<div class="empty"><p style="font-size:40px;margin:10px 0">👋</p>
       <p><b>Añade a tu gente</b></p>
-      <p>Para cada persona eliges cada cuánto quieres saber de ella. La app te propone a quién escribir cada semana.</p>
+      <p>Para cada persona ves cuándo quedasteis por última vez y cuándo es la próxima. La app te propone a quién escribir cada semana.</p>
       <button class="btn primary" onclick="openPerson()">Añadir la primera persona</button></div>`;
     return;
   }
-  let html = '';
+  let html = db.demo ? `<div class="demo"><span class="grow">Datos de ejemplo para probar la app.</span><button class="btn ghost" onclick="clearDemo()">Empezar vacío</button></div>` : '';
+  html = `<div class="topband"></div>%%STATS%%` + html;
+
+  // Planes pasados sin confirmar
+  const past = db.people.flatMap(p=>pastPlans(p).map(pl=>({p,pl}))).sort((a,b)=>byWhen(a.pl,b.pl));
+  if(past.length){
+    html += `<h2>¿Se hizo?</h2>` + past.map(({p,pl})=>`
+      <div class="card"><div class="row">
+        <div class="when past"><b>${parseISO(pl.date).getDate()}</b><span>${MON[parseISO(pl.date).getMonth()]}</span></div>
+        <div class="grow" onclick="openPlan('${p.id}','${pl.id}')" style="cursor:pointer">
+          <div class="name">${TYPES[pl.type].icon} ${esc(p.name)}</div>
+          <div class="sub">${esc(pl.note || TYPES[pl.type].label)}</div></div>
+      </div>
+      <div class="quick"><button class="btn" onclick="planDone('${p.id}','${pl.id}')">Sí, apuntar</button>
+        <button class="btn ghost" onclick="openPlan('${p.id}','${pl.id}')">Cambiar fecha</button>
+        <button class="btn ghost" onclick="planDrop('${p.id}','${pl.id}')">No se hizo</button></div></div>`).join('');
+  }
+
+  // Próximas quedadas
+  const next = db.people.flatMap(p=>upcoming(p).map(pl=>({p,pl}))).sort((a,b)=>byWhen(a.pl,b.pl));
+  const sts = db.people.map(status);
+  const nToca = sts.filter(s=>s.level==='late'||s.level==='warn').length, nOk = sts.filter(s=>s.level==='ok').length;
+  html = html.replace('%%STATS%%', `<div class="stats">
+    <div class="stat" style="--c:var(--plan)"><b>${next.length}</b><span>${next.length===1?'plan':'planes'}</span></div>
+    <div class="stat" style="--c:var(--late)"><b>${nToca}</b><span>pendientes</span></div>
+    <div class="stat" style="--c:var(--ok)"><b>${nOk}</b><span>al día</span></div></div>`);
+  html += `<h2>Próximas quedadas</h2>`;
+  if(!next.length){
+    html += `<div class="card sub">Nada en la agenda. Usa 📅 en cualquier persona para apuntar una quedada.</div>`;
+  } else {
+    { const {p,pl} = next[0], d=parseISO(pl.date), n=daysBetween(today(),d);
+      html += `<div class="hero" onclick="openPlan('${p.id}','${pl.id}')">
+        <div class="when"><b>${d.getDate()}</b><span>${MON[d.getMonth()]}</span></div>
+        <div class="grow"><div class="k">Próxima · ${n===0?'hoy':n===1?'mañana':`en ${n} días`}</div>
+          <div class="t">${pl.type==='quedada'?'':TYPES[pl.type].icon+' '}${esc(p.name)}</div>
+          <div class="s">${esc([DOW[d.getDay()], pl.time, pl.note].filter(Boolean).join(' · '))}</div></div></div>`; }
+    html += next.slice(1).map(({p,pl})=>{ const d=parseISO(pl.date), n=daysBetween(today(),d);
+      return `<div class="card" onclick="openPlan('${p.id}','${pl.id}')" style="cursor:pointer"><div class="row">
+        <div class="when"><b>${d.getDate()}</b><span>${MON[d.getMonth()]}</span></div>
+        <div class="grow"><div class="name">${pl.type==='quedada'?'':TYPES[pl.type].icon+' '}${esc(p.name)}</div>
+          <div class="sub">${esc([n===0?'Hoy':n===1?'Mañana':`${DOW[d.getDay()]}, en ${n} días`, pl.time, pl.note].filter(Boolean).join(' · '))}</div></div>
+      </div></div>`; }).join('');
+  }
 
   // Esta semana
   const picks = weeklyPicks();
-  html += `<h2>Esta semana</h2>`;
+  html += `<h2>Esta semana, escribe a…</h2>`;
   if(!picks.length){
     html += `<div class="card sub">Todo al día. Nadie se te está pasando 🎉</div>`;
   } else {
@@ -225,36 +346,70 @@ function render(){
       .filter(([k])=> k==='todos' || db.people.some(p=>p.circle===k))
       .map(([k,l])=>`<button class="chip ${filter===k?'on':''}" onclick="setFilter('${k}')">${l}</button>`).join('') + `</div>`;
   const list = db.people.filter(p=> filter==='todos' || p.circle===filter)
-    .map(p=>({p,s:status(p)})).sort((a,b)=> b.s.ratio - a.s.ratio || a.p.name.localeCompare(b.p.name));
+    .map(p=>({p,s:status(p)})).sort((a,b)=> b.s.sortKey - a.s.sortKey || a.p.name.localeCompare(b.p.name));
   html += list.map(({p})=>personCard(p,{compact:true})).join('');
   app.innerHTML = html;
 }
 function personCard(p, {compact=false, done=false}={}){
   const s = status(p);
   return `<div class="card" style="${done?'opacity:.55':''}">
-    <div class="row" onclick="openDetail('${p.id}')" style="cursor:pointer">
-      <span class="dot ${done?'ok':s.level}"></span>
-      <div class="grow"><div class="name">${done?'✓ ':''}${esc(p.name)}</div>
-        <div class="sub">${esc(statusText(p,s))}</div></div>
-      ${compact?'':`<span class="tag">${CIRCLES[p.circle]?.label||''}</span>`}
+    <div class="row" onclick="openDetail('${p.id}')" style="cursor:pointer;align-items:flex-start">
+      ${avatar(p, s, {done})}
+      <div class="grow"><div class="row" style="gap:8px"><div class="name grow">${esc(p.name)}</div>
+          <span class="circ" style="color:${circleColor(p)}">${CIRCLES[p.circle]?.label||''}</span></div>
+        ${meetLine(p)}${contactLine(p,s)}${done?'':bar(s)}</div>
     </div>
     ${done?'':`<div class="quick">${Object.entries(TYPES).map(([k,t])=>
-      `<button class="btn" onclick="quickLog('${p.id}','${k}')">${t.icon} ${t.label}</button>`).join('')}</div>`}
+      `<button class="btn" onclick="quickLog('${p.id}','${k}')">${t.icon} ${t.label}</button>`).join('')}
+      <button class="btn plan" onclick="openPlan('${p.id}')" aria-label="Planear quedada">📅</button></div>`}
   </div>`;
 }
 function setFilter(f){ filter=f; render(); }
+function initials(name){
+  const w = name.trim().split(/\s+/);
+  return (w.length>1 ? w[0][0]+w[1][0] : name.trim().slice(0,2)).toUpperCase();
+}
+const circleColor = p => `var(--c-${CIRCLES[p.circle] ? p.circle : 'amigo'})`;
+function avatar(p, s, {lg=false, done=false}={}){
+  return `<div class="av ${lg?'lg':''}" style="background:${circleColor(p)}">${done?'✓':esc(initials(p.name))}<span class="badge ${done?'ok':s.level}"></span></div>`;
+}
+function bar(s){
+  const w = s.since===null ? 0 : Math.min(1, s.ratio)*100;
+  const col = s.planned ? 'var(--plan)' : `var(--${s.level==='new'?'muted':s.level})`;
+  return `<div class="bar" title="Tiempo desde el último contacto frente a la cadencia"><i style="width:${s.planned?100:w}%;background:${col}"></i></div>`;
+}
 
 // ---------- acciones ----------
 function quickLog(id, type){
   const p = db.people.find(x=>x.id===id); if(!p) return;
   const entry = {id:uid(), type, date:toISO(today()), note:''};
-  p.logs.push(entry); save(); render();
-  toast(`${TYPES[type].icon} ${p.name} · apuntado`, ()=> openLog(id, entry.id));
+  p.logs.push(entry);
+  closePlansUpTo(p, type, entry.date);
+  save(); render();
+  toast(`${TYPES[type].icon} ${p.name} · apuntado`, ()=> openLog(id, entry.id), 'añadir nota');
+}
+// Si registras una quedada/llamada, los planes de ese tipo hasta esa fecha se dan por hechos
+function closePlansUpTo(p, type, date){
+  const hit = p.plans.filter(x=>x.type===type && x.date<=date);
+  hit.forEach(pl=>{ const l = p.logs.find(x=>x.date===date && x.type===type && !x.note); if(l && pl.note) l.note = pl.note; });
+  p.plans = p.plans.filter(x=>!hit.includes(x));
+}
+function planDone(pid, plid){
+  const p = db.people.find(x=>x.id===pid), pl = p.plans.find(x=>x.id===plid);
+  const t = toISO(today());
+  const entry = {id:uid(), type:pl.type, date: pl.date<=t ? pl.date : t, note:pl.note||''};
+  p.logs.push(entry); p.plans = p.plans.filter(x=>x.id!==plid);
+  save(); closeSheet(); render();
+  toast(`${TYPES[pl.type].icon} ${p.name} · apuntado`, ()=> openLog(pid, entry.id), 'añadir nota');
+}
+function planDrop(pid, plid){
+  const p = db.people.find(x=>x.id===pid);
+  p.plans = p.plans.filter(x=>x.id!==plid); save(); closeSheet(); render(); toast('Plan quitado');
 }
 
 // ---------- sheet ----------
 const sheet = document.getElementById('sheet'), overlay = document.getElementById('overlay');
-function openSheet(html){ sheet.innerHTML = html; overlay.classList.add('open'); requestAnimationFrame(()=>sheet.classList.add('open')); }
+function openSheet(html){ sheet.innerHTML = html; sheet.scrollTop = 0; overlay.classList.add('open'); requestAnimationFrame(()=>sheet.classList.add('open')); }
 function closeSheet(){ sheet.classList.remove('open'); overlay.classList.remove('open'); }
 overlay.onclick = closeSheet;
 
@@ -272,10 +427,11 @@ function openPerson(id){
       <div><label>Hablar cada (días)</label><input id="f_cad" type="number" min="1" inputmode="numeric" value="${p.cadence}"></div>
       <div><label>Quedar cada (días)</label><input id="f_meet" type="number" min="1" inputmode="numeric" value="${p.meetCadence||''}" placeholder="opcional"></div>
     </div>
+    ${id?'':`<label>Última vez que quedasteis (si la recuerdas)</label><input id="f_lastmeet" type="date" max="${toISO(today())}">`}
     <label>Cumpleaños</label>
     <div class="two">
       <select id="f_bd"><option value="">Día</option>${Array.from({length:31},(_,i)=>{const v=String(i+1).padStart(2,'0');return `<option ${bd===v?'selected':''}>${v}</option>`}).join('')}</select>
-      <select id="f_bm"><option value="">Mes</option>${['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${bm===v?'selected':''}>${m}</option>`}).join('')}</select>
+      <select id="f_bm"><option value="">Mes</option>${MON.map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${bm===v?'selected':''}>${m}</option>`}).join('')}</select>
     </div>
     <label>Notas (familia, trabajo, de qué hablasteis…)</label>
     <textarea id="f_notes">${esc(p.notes)}</textarea>
@@ -299,7 +455,10 @@ function savePerson(id){
     notes: document.getElementById('f_notes').value,
   };
   if(id){ Object.assign(db.people.find(x=>x.id===id), data); }
-  else db.people.push({id:uid(), logs:[], created:toISO(today()), ...data});
+  else {
+    const lastMeet = document.getElementById('f_lastmeet').value;
+    db.people.push({id:uid(), logs: lastMeet ? [{id:uid(), type:'quedada', date:lastMeet, note:''}] : [], plans:[], created:toISO(today()), ...data});
+  }
   save(); closeSheet(); render();
   if(id) openDetail(id);
 }
@@ -324,15 +483,23 @@ function openDetail(id){
   const p = db.people.find(x=>x.id===id); if(!p) return;
   const s = status(p);
   const logs = [...p.logs].sort((a,b)=> b.date.localeCompare(a.date));
+  const plans = [...p.plans].sort(byWhen);
   const nb = nextBirthday(p);
   openSheet(`
-    <div class="row"><span class="dot ${s.level}"></span><h1 class="grow">${esc(p.name)}</h1>
+    <div class="row">${avatar(p, s, {lg:true})}<h1 class="grow">${esc(p.name)}</h1>
       <button class="icon-btn" onclick="openPerson('${id}')" aria-label="Editar">✎</button>
       <button class="icon-btn" onclick="closeSheet()">✕</button></div>
-    <div class="sub" style="margin-top:4px">${CIRCLES[p.circle]?.label} · hablar cada ${p.cadence} días${p.meetCadence?` · quedar cada ${p.meetCadence}`:''}${nb!==null?` · 🎂 ${nb===0?'hoy':`en ${nb} días`}`:''}</div>
-    <div class="sub" style="margin-top:2px">${esc(statusText(p,s))}</div>
+    ${bar(s)}
+    <div class="sub" style="margin-top:8px"><b style="color:${circleColor(p)}">${CIRCLES[p.circle]?.label}</b> · hablar cada ${p.cadence} días${p.meetCadence?` · quedar cada ${p.meetCadence}`:''}${nb!==null?` · 🎂 ${nb===0?'hoy':`en ${nb} días`}`:''}</div>
+    ${meetLine(p)}${contactLine(p,s)}
     <div class="quick">${Object.entries(TYPES).map(([k,t])=>
-      `<button class="btn" onclick="openLog('${id}',null,'${k}')">${t.icon} ${t.label}</button>`).join('')}</div>
+      `<button class="btn" onclick="openLog('${id}',null,'${k}')">${t.icon} ${t.label}</button>`).join('')}
+      <button class="btn plan" onclick="openPlan('${id}')" aria-label="Planear quedada">📅</button></div>
+    <h2>Planes</h2>
+    ${plans.length ? plans.map(pl=>`<div class="log planned" onclick="openPlan('${id}','${pl.id}')" style="cursor:pointer">
+        <div class="sub"><span>${TYPES[pl.type].icon} ${TYPES[pl.type].label}</span><span>${esc(fmtPlanDate(pl,true))}</span></div>
+        ${pl.note?`<div style="white-space:pre-wrap">${esc(pl.note)}</div>`:''}</div>`).join('')
+      : `<div class="sub">Sin planes. <a href="#" onclick="openPlan('${id}');return false" style="color:var(--plan)">Apuntar una quedada</a></div>`}
     ${p.notes?`<h2>Notas</h2><div class="card" style="white-space:pre-wrap">${esc(p.notes)}</div>`:''}
     <h2>Historial</h2>
     ${logs.length? logs.map(l=>`<div class="log" onclick="openLog('${id}','${l.id}')" style="cursor:pointer">
@@ -358,14 +525,75 @@ function openLog(pid, lid, type){
 }
 function saveLog(pid, lid){
   const p = db.people.find(x=>x.id===pid);
-  const data = {type:document.getElementById('l_type').value, date:document.getElementById('l_date').value||toISO(today()), note:document.getElementById('l_note').value.trim()};
+  const t = toISO(today());
+  let date = document.getElementById('l_date').value || t; if(date > t) date = t;
+  const data = {type:document.getElementById('l_type').value, date, note:document.getElementById('l_note').value.trim()};
   if(lid) Object.assign(p.logs.find(x=>x.id===lid), data);
-  else p.logs.push({id:uid(), ...data});
+  else { p.logs.push({id:uid(), ...data}); closePlansUpTo(p, data.type, data.date); }
   save(); render(); openDetail(pid);
 }
 function deleteLog(pid, lid){
   const p = db.people.find(x=>x.id===pid);
   p.logs = p.logs.filter(x=>x.id!==lid); save(); render(); openDetail(pid);
+}
+
+// ---------- planes ----------
+function openPlan(pid, plid){
+  const p = db.people.find(x=>x.id===pid);
+  const t = toISO(today());
+  const pl = plid ? p.plans.find(x=>x.id===plid) : {type:'quedada', date:'', time:'', note:''};
+  openSheet(`
+    <div class="row"><h1 class="grow">${plid?'Plan con ':'Quedar con '}${esc(p.name)}</h1><button class="icon-btn" onclick="closeSheet()">✕</button></div>
+    <label>Tipo</label>
+    <select id="p_type">${PLAN_TYPES.map(k=>`<option value="${k}" ${pl.type===k?'selected':''}>${TYPES[k].icon} ${TYPES[k].label}</option>`).join('')}</select>
+    <div class="two">
+      <div><label>Fecha</label><input id="p_date" type="date" value="${pl.date}" ${plid?'':`min="${t}"`}></div>
+      <div><label>Hora (opcional)</label><input id="p_time" type="time" value="${pl.time||''}"></div>
+    </div>
+    <label>Plan / sitio (opcional)</label><input id="p_note" value="${esc(pl.note)}" placeholder="Cena en…, café, partido…" autocomplete="off">
+    ${plid?`<div class="quick" style="margin-top:16px">
+      <button class="btn" onclick="planDone('${pid}','${plid}')">✓ Se hizo</button>
+      <button class="btn plan" onclick="downloadICS('${pid}','${plid}')">Añadir al calendario</button></div>`:''}
+    <div style="display:flex;gap:8px;margin-top:12px">
+      ${plid?`<button class="btn danger" onclick="planDrop('${pid}','${plid}')">Quitar</button>`:''}
+      <span class="grow"></span>
+      <button class="btn primary" onclick="savePlan('${pid}','${plid||''}')">Guardar</button>
+    </div>`);
+}
+function savePlan(pid, plid){
+  const p = db.people.find(x=>x.id===pid);
+  const date = document.getElementById('p_date').value;
+  if(!date){ toast('Elige una fecha'); return; }
+  const data = {type:document.getElementById('p_type').value, date, time:document.getElementById('p_time').value, note:document.getElementById('p_note').value.trim()};
+  let id = plid;
+  if(plid) Object.assign(p.plans.find(x=>x.id===plid), data);
+  else { id = uid(); p.plans.push({id, ...data}); }
+  save(); closeSheet(); render();
+  toast(`📅 ${p.name} · ${fmtPlanDate(data)}`, ()=>downloadICS(pid,id), 'al calendario');
+}
+function downloadICS(pid, plid){
+  const p = db.people.find(x=>x.id===pid), pl = p && p.plans.find(x=>x.id===plid); if(!pl) return;
+  const d = pl.date.replace(/-/g,'');
+  const pad = n => String(n).padStart(2,'0');
+  let when;
+  if(pl.time){
+    const s = new Date(parseISO(pl.date)); const [h,m] = pl.time.split(':').map(Number); s.setHours(h,m);
+    const e = new Date(s.getTime()+2*3600000);
+    const f = x => `${x.getFullYear()}${pad(x.getMonth()+1)}${pad(x.getDate())}T${pad(x.getHours())}${pad(x.getMinutes())}00`;
+    when = `DTSTART:${f(s)}\r\nDTEND:${f(e)}`;
+  } else {
+    const e = new Date(parseISO(pl.date).getTime()+86400000);
+    when = `DTSTART;VALUE=DATE:${d}\r\nDTEND;VALUE=DATE:${toISO(e).replace(/-/g,'')}`;
+  }
+  const icsEsc = s => String(s).replace(/[\\,;]/g,m=>'\\'+m).replace(/\n/g,'\\n');
+  const title = `${TYPES[pl.type].label} con ${p.name}`;
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Quedamos//ES','BEGIN:VEVENT',
+    `UID:${pl.id}@quedamos`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').slice(0,15)}Z`, when,
+    `SUMMARY:${icsEsc(title)}`, pl.note?`DESCRIPTION:${icsEsc(pl.note)}`:'', 'END:VEVENT','END:VCALENDAR'].filter(Boolean).join('\r\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+  a.download = `quedada-${p.name.toLowerCase().replace(/\s+/g,'-')}-${pl.date}.ics`;
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
 // ---------- ajustes / copia ----------
@@ -389,6 +617,7 @@ function importData(file){
   if(!file) return;
   const r = new FileReader();
   r.onload = () => { try{ const d = JSON.parse(r.result); if(!Array.isArray(d.people)) throw 0;
+      d.people.forEach(p=>{ p.logs=p.logs||[]; p.plans=p.plans||[]; });
       askConfirm(`¿Importar ${d.people.length} personas y sustituir los datos actuales?`, 'Importar', ()=>{
         db = d; save(); closeSheet(); render(); toast('Copia importada'); });
     }catch(e){ toast('Archivo no válido'); } };
@@ -396,19 +625,38 @@ function importData(file){
 }
 
 // ---------- toast ----------
-function toast(msg, onTap){
+function toast(msg, onTap, tapLabel){
   const t = document.getElementById('toast');
-  t.textContent = msg + (onTap ? ' · añadir nota' : '');
+  t.textContent = msg + (onTap ? ` · ${tapLabel||'abrir'}` : '');
   t.style.pointerEvents = onTap ? 'auto' : 'none';
   t.onclick = onTap ? ()=>{ t.classList.remove('show'); onTap(); } : null;
   t.classList.add('show'); clearTimeout(toastTimer);
   toastTimer = setTimeout(()=>{ t.classList.remove('show'); t.style.pointerEvents='none'; }, onTap?3500:2000);
 }
 
+// ---------- datos de ejemplo (solo vista previa) ----------
+function seed(){
+  const d = n => toISO(new Date(today().getTime()-n*86400000));
+  const bd = n => { const x=new Date(today().getTime()+n*86400000); return String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0'); };
+  const P = (name,circle,cadence,logs,plans=[],extra={}) => ({id:uid(),name,circle,cadence,meetCadence:null,birthday:'',notes:'',created:d(200),
+    logs:logs.map(([type,n,note=''])=>({id:uid(),type,date:d(n),note})),
+    plans:plans.map(([type,n,time='',note=''])=>({id:uid(),type,date:d(-n),time,note})),...extra});
+  return {demo:true, people:[
+    P('Laura','cercano',14,[['mensaje',21,'Empezaba trabajo nuevo, preguntar qué tal'],['quedada',50]],[['quedada',3,'20:30','Cena en Malasaña']],{notes:'Hijos: Leo y Nora.'}),
+    P('Javi','amigo',30,[['llamada',12],['quedada',75,'Cena en Lavapiés']],[['quedada',-2,'','Pádel']],{meetCadence:60}),
+    P('Ana','amigo',30,[['mensaje',8]],[],{birthday:bd(5)}),
+    P('Marta','excompa',90,[['mensaje',130,'Se mudó a Barcelona']]),
+    P('Pedro','conocido',180,[['quedada',40]],[['llamada',10,'19:00','']]),
+    P('Sergio','excompa',90,[]),
+  ]};
+}
+function clearDemo(){ db = {people:[], cleared:true}; save(); render(); }
+
+if(PREVIEW && !db.people.length && !db.cleared){ db = seed(); save(); }
 document.getElementById('addBtn').onclick = ()=>openPerson();
 document.getElementById('menuBtn').onclick = openMenu;
 render();
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+if(!PREVIEW && 'serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
