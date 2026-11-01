@@ -1,6 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#6C5CE7"/>
-  <circle cx="200" cy="230" r="78" fill="#ffffff"/>
-  <circle cx="312" cy="282" r="78" fill="#ffffff" fill-opacity=".72"/>
-  <path d="M256 350c40 0 72 16 72 16" stroke="#ffffff" stroke-width="0" fill="none"/>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8576F2"/>
+      <stop offset="1" stop-color="#5442D4"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(0 20)">
+  <!-- vapor -->
+  <g fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="14" stroke-linecap="round">
+    <path d="M226 128c-14 16 14 30 0 48"/>
+    <path d="M286 128c-14 16 14 30 0 48"/>
+  </g>
+  <!-- taza izquierda (blanca) -->
+  <g transform="rotate(-12 196 300)">
+    <path d="M124 214h148v104c0 40-30 68-74 68s-74-28-74-68z" fill="#ffffff"/>
+    <path d="M124 262c-34 0-50 18-50 40s16 40 50 40" fill="none" stroke="#ffffff" stroke-width="20" stroke-linecap="round"/>
+    <rect x="124" y="214" width="148" height="20" rx="6" fill="#E9E5FF"/>
+  </g>
+  <!-- taza derecha (coral) -->
+  <g transform="rotate(12 316 300)">
+    <path d="M240 214h148v104c0 40-30 68-74 68s-74-28-74-68z" fill="#FF7A6B"/>
+    <path d="M388 262c34 0 50 18 50 40s-16 40-50 40" fill="none" stroke="#FF7A6B" stroke-width="20" stroke-linecap="round"/>
+    <rect x="240" y="214" width="148" height="20" rx="6" fill="#FFB3A8"/>
+  </g>
+  </g>
 </svg>
